@@ -1,7 +1,13 @@
 #include <SFML/Graphics.hpp>
+#include "simulation.h"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1260, 848, 32), "Teste");
+    const uint32_t width = 1260;
+    const uint32_t height = 848;
+    const uint32_t particleDimension = 2;
+
+    sf::RenderWindow window(sf::VideoMode(width, height, 32), "Teste");
+    Simulation simulation(width, height, particleDimension);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -10,7 +16,8 @@ int main() {
                 window.close();
         }
 
-        window.clear(sf::Color::Red);
+        simulation.update();
+        window.draw(simulation.getSprite());
         window.display();
     }
 

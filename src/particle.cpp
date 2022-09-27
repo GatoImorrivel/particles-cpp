@@ -8,11 +8,11 @@ Particle::Particle(Particles type, sf::Color color, ParticleUpdater updater){
 }
 
 // EMPTY PARTICLE
-uint32_t updateEmpty(uint32_t position, std::unique_ptr<std::vector<Particle>> particles) {
+const uint32_t updateEmpty(const uint32_t position, const std::vector<Particle> particles) {
 	return position;
 }
 
-Particle Particle::empty(){
+const Particle Particle::empty(){
 	return Particle(
 		Particles::Empty,
 		sf::Color::Black,
@@ -22,11 +22,11 @@ Particle Particle::empty(){
 
 
 // SAND PARTICLE
-uint32_t updateSand(uint32_t position, std::unique_ptr<std::vector<Particle>> particles) {
+const uint32_t updateSand(const uint32_t position, const std::vector<Particle> particles) {
 	return position;
 }
 
-Particle Particle::sand(){
+const Particle Particle::sand(){
 	return Particle(
 		Particles::Sand,
 		sf::Color::Yellow,
@@ -35,11 +35,11 @@ Particle Particle::sand(){
 }
 
 // WATER PARTICLE
-uint32_t updateWater(uint32_t position, std::unique_ptr<std::vector<Particle>> particles) {
+const uint32_t updateWater(const uint32_t position, const std::vector<Particle> particles) {
 	return position;
 }
 
-Particle Particle::water(){
+const Particle Particle::water(){
 	return Particle(
 		Particles::Water,
 		sf::Color::Blue,
