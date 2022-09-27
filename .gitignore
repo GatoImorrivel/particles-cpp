@@ -1,4 +1,4 @@
 /obj
 /bin
-/Makefile
-/particle-sim.make
+Makefile
+particle-sim.make
