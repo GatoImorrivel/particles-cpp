@@ -15,11 +15,14 @@ class Simulation {
 
         uint32_t width;
         uint32_t height;
+
+        void swapParticle(const size_t p1idx, const size_t p2idx);
+        void writeToTextureData(const size_t pidx, const sf::Color c);
+        const inline size_t indexOf(const size_t x, const size_t y);
     public:
         Simulation(const uint32_t width, const uint32_t height, const uint32_t particleDimensions);
-        const inline size_t indexOf(const size_t x, const size_t y);
-        const sf::Sprite getSprite();
-        void swap(const size_t p1idx, const size_t p2idx);
+        sf::Sprite getSprite();
+        const void draw(sf::RenderWindow *window);
         void update();
 };
 

@@ -13,7 +13,7 @@ enum Particles {
     Water,
 };
 
-using ParticleUpdater = const uint32_t (*)(const uint32_t, const std::vector<Particle>);
+using ParticleUpdater = const uint32_t (*)(const uint32_t, const std::vector<Particle>*);
 
 class Particle {
     private:
@@ -23,6 +23,7 @@ class Particle {
     public:
         ParticleUpdater updater;
         Particle(Particles type, sf::Color color, ParticleUpdater updater);
+        const sf::Color getColor();
         const static Particle empty();
         const static Particle sand();
         const static Particle water();
