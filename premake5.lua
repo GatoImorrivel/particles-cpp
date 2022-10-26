@@ -1,4 +1,5 @@
 workspace "particle-sim"
+    toolset "clang"
     configurations {"Debug", "Release"}
 
 project "particle-sim"

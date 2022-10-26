@@ -1,1 +1,1 @@
-premake5 gmake2 && make config=debug && ./bin/Debug/particle-sim
+premake5 gmake2 && make config=debug && gdb ./bin/Debug/particle-sim

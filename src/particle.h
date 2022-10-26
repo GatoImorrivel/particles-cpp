@@ -2,31 +2,32 @@
 #define PARTICLE_HPP_
 
 #include <SFML/Graphics.hpp>
-#include <vector>
 #include <memory>
+#include <vector>
 
 class Particle;
 
 enum Particles {
-    Empty,
-    Sand,
-    Water,
+  Empty,
+  Sand,
+  Water,
 };
 
-using ParticleUpdater = const uint32_t (*)(const uint32_t, const std::vector<Particle>*);
+using ParticleUpdater = const uint32_t (*)(const uint32_t,
+                                           const std::vector<Particle>*);
 
 class Particle {
-    private:
-        Particles type;
-        sf::Color color;
+ private:
+  Particles type;
+  sf::Color color;
 
-    public:
-        ParticleUpdater updater;
-        Particle(Particles type, sf::Color color, ParticleUpdater updater);
-        const sf::Color getColor();
-        const static Particle empty();
-        const static Particle sand();
-        const static Particle water();
+ public:
+  ParticleUpdater updater;
+  Particle(Particles type, sf::Color color, ParticleUpdater updater);
+  const sf::Color getColor();
+  const static Particle empty();
+  const static Particle sand();
+  const static Particle water();
 };
 
-#endif // PARTICLE_HPP_
+#endif  // PARTICLE_HPP_
