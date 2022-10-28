@@ -10,10 +10,10 @@ Simulation::Simulation(const uint32_t width,
   this->width = simWidth;
   this->height = simHeight;
   this->particles =
-      std::vector<Particle>(simWidth * simHeight, Particle::water());
+      std::vector<Particle>(simWidth * simHeight, Particle::sand());
   this->textureData =
       std::vector<sf::Uint8>(simWidth * simHeight * 4,
-                             sf::Uint8(255));  // 4 colors channels
+                             sf::Uint8(0));  // 4 colors channels
 
   sf::Texture texture;
   if (!texture.create(simWidth, simHeight)) {
