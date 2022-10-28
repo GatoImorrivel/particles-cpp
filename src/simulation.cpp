@@ -1,4 +1,4 @@
-#include "simulation.h"
+#include "simulation.hpp"
 #include <iostream>
 
 Simulation::Simulation(const uint32_t width,
@@ -31,43 +31,43 @@ Simulation::Simulation(const uint32_t width,
 }
 
 void Simulation::update() {
-  for (size_t y = 0; y < this->height; y++) {
-    for (size_t x = 0; x < this->width; x++) {
-      size_t i = this->indexOf(x, y);
-      uint32_t newPos = this->particles[i].updater(i, &this->particles);
-      this->swapParticle(i, newPos);
+  for (int yPos = this->height; yPos-- > 0;) {
+    for (size_t xPos = 0; xPos < this->width; xPos++) {
+      size_t index = this->indexOf(xPos, yPos);
+      uint32_t newPos = this->particles[index].updater(index, &this->particles);
+      this->swapParticle(index, newPos);
     }
   }
   this->texture.update(this->textureData.data());
 }
 
-const void Simulation::draw(sf::RenderWindow* window) {
+void Simulation::draw(sf::RenderWindow* window) const {
   window->draw(this->renderSprite);
 }
 
-const inline size_t Simulation::indexOf(const size_t x, const size_t y) {
-  return y * this->width + x;
+inline size_t Simulation::indexOf(const size_t xPos, const size_t yPos) const {
+  return yPos * this->width + xPos;
 }
 
 void Simulation::swapParticle(const size_t p1idx, const size_t p2idx) {
-  Particle* p1 = &this->particles[p1idx];
-  Particle* p2 = &this->particles[p2idx];
+  Particle* particle1 = &this->particles[p1idx];
+  Particle* particle2 = &this->particles[p2idx];
 
-  Particle t = *p1;
-  *p1 = *p2;
-  *p2 = t;
+  Particle temp = *particle1;
+  *particle1 = *particle2;
+  *particle2 = temp;
 
-  this->writeToTextureData(p1idx, p1->getColor());
-  this->writeToTextureData(p2idx, p2->getColor());
+  this->writeToTextureData(p1idx, particle1->getColor());
+  this->writeToTextureData(p2idx, particle2->getColor());
 }
 
-void Simulation::writeToTextureData(const size_t pidx, const sf::Color c) {
-  this->textureData[pidx * 4] = c.r;
-  this->textureData[pidx * 4 + 1] = c.g;
-  this->textureData[pidx * 4 + 2] = c.b;
-  this->textureData[pidx * 4 + 3] = c.a;
+void Simulation::writeToTextureData(const size_t pidx, const sf::Color color) {
+  this->textureData[pidx * 4] = color.r;
+  this->textureData[pidx * 4 + 1] = color.g;
+  this->textureData[pidx * 4 + 2] = color.b;
+  this->textureData[pidx * 4 + 3] = color.a;
 }
 
-sf::Sprite Simulation::getSprite() {
+sf::Sprite Simulation::getSprite() const {
   return this->renderSprite;
 }

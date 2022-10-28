@@ -1,10 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <cstdint>
-#include "simulation.h"
+#include "simulation.hpp"
 
 int main() {
-  const uint32_t width = 848;
-  const uint32_t height = 484;
+  const uint32_t width = 1260;
+  const uint32_t height = 848;
   const uint32_t particleDimension = 2;
   const uint32_t bitsPerPixel = 32;
 
