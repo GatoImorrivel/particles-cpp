@@ -10,6 +10,8 @@ project "particle-sim"
 
     files {"./src/**.hpp", "./src/**.cpp"}
 
+    buildoptions {"-fstandalone-debug"}
+
     filter "configurations:Debug"
         defines {"DEBUG"}
         symbols "On"

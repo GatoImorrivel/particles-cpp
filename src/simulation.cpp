@@ -31,7 +31,7 @@ Simulation::Simulation(const uint32_t width,
 }
 
 void Simulation::update() {
-  for (size_t y = this->height - 1; y > 0; y--) {
+  for (size_t y = 0; y < this->height; y++) {
     for (size_t x = 0; x < this->width; x++) {
       size_t i = this->indexOf(x, y);
       uint32_t newPos = this->particles[i].updater(i, &this->particles);
