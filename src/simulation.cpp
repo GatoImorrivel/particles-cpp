@@ -1,73 +1,55 @@
 #include "simulation.hpp"
-#include <iostream>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <cstdint>
+#include <memory>
+#include <vector>
+#include "particle.hpp"
 
-Simulation::Simulation(const uint32_t width,
-                       const uint32_t height,
-                       const uint32_t particleDimensions) {
-  auto simWidth = width / particleDimensions;
-  auto simHeight = height / particleDimensions;
-
-  this->width = simWidth;
-  this->height = simHeight;
-  this->particles =
-      std::vector<Particle>(simWidth * simHeight, Particle::sand());
-  this->textureData =
-      std::vector<sf::Uint8>(simWidth * simHeight * 4,
-                             sf::Uint8(0));  // 4 colors channels
-
+Simulation::Simulation(uint32_t width,
+                       uint32_t height,
+                       uint32_t particle_dimensions)
+    : width(width / particle_dimensions),
+      height(height / particle_dimensions),
+      particles((width / particle_dimensions) * (height / particle_dimensions),
+                std::make_shared<Particle>(particle_empty_)) {
   sf::Texture texture;
-  if (!texture.create(simWidth, simHeight)) {
-    std::cout << "ERROR CREATING TEXTURE"
-              << "\n";
+  if (!texture.create(this->width, this->height)) {
+    throw "FAILED TO CREATE TEXTURE";
   }
 
   this->texture = texture;
 
   sf::Sprite sprite;
   sprite.setTexture(this->texture, false);
-  sprite.setScale(particleDimensions, particleDimensions);
+  sprite.setScale(particle_dimensions, particle_dimensions);
 
-  this->renderSprite = sprite;
+  this->render_sprite = sprite;
 }
 
-void Simulation::update() {
-  for (int yPos = this->height; yPos-- > 0;) {
-    for (size_t xPos = 0; xPos < this->width; xPos++) {
-      size_t index = this->indexOf(xPos, yPos);
-      uint32_t newPos = this->particles[index].updater(index, &this->particles);
-      this->swapParticle(index, newPos);
-    }
-  }
-  this->texture.update(this->textureData.data());
+void Simulation::draw(sf::RenderWindow& window) const {
+  window.draw(this->render_sprite);
 }
 
-void Simulation::draw(sf::RenderWindow* window) const {
-  window->draw(this->renderSprite);
-}
-
-inline size_t Simulation::indexOf(const size_t xPos, const size_t yPos) const {
-  return yPos * this->width + xPos;
+inline size_t Simulation::indexOf(const size_t x_pos, const size_t y_pos) const {
+  return y_pos * this->width + x_pos;
 }
 
 void Simulation::swapParticle(const size_t p1idx, const size_t p2idx) {
-  Particle* particle1 = &this->particles[p1idx];
-  Particle* particle2 = &this->particles[p2idx];
 
-  Particle temp = *particle1;
-  *particle1 = *particle2;
-  *particle2 = temp;
-
-  this->writeToTextureData(p1idx, particle1->getColor());
-  this->writeToTextureData(p2idx, particle2->getColor());
+  this->writeToTextureData(p1idx);
+  this->writeToTextureData(p2idx);
 }
 
-void Simulation::writeToTextureData(const size_t pidx, const sf::Color color) {
-  this->textureData[pidx * 4] = color.r;
-  this->textureData[pidx * 4 + 1] = color.g;
-  this->textureData[pidx * 4 + 2] = color.b;
-  this->textureData[pidx * 4 + 3] = color.a;
+void Simulation::writeToTextureData(const size_t pidx) {
+  auto color = this->particles[pidx]->color;
+
+  this->texture_data[pidx * 4] = color.r;
+  this->texture_data[pidx * 4 + 1] = color.g;
+  this->texture_data[pidx * 4 + 2] = color.b;
+  this->texture_data[pidx * 4 + 3] = color.a;
 }
 
 sf::Sprite Simulation::getSprite() const {
-  return this->renderSprite;
+  return this->render_sprite;
 }

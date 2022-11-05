@@ -2,7 +2,7 @@
 #include <cstdint>
 #include "simulation.hpp"
 
-int main() {
+auto main() -> int {
   const uint32_t width = 1260;
   const uint32_t height = 848;
   const uint32_t particleDimension = 2;
@@ -21,7 +21,7 @@ int main() {
 
     window.clear(sf::Color::Red);
     simulation.update();
-    simulation.draw(&window);
+    simulation.draw(window);
     window.display();
   }
 
