@@ -9,7 +9,7 @@ auto main() -> int {
   const uint32_t bitsPerPixel = 32;
 
   sf::RenderWindow window(sf::VideoMode(width, height, bitsPerPixel), "Teste");
-  Simulation simulation = Simulation(width, height, particleDimension);
+  Simulation simulation(width, height, particleDimension);
 
   while (window.isOpen()) {
     sf::Event event;

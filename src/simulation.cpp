@@ -1,10 +1,15 @@
-#include "simulation.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <cstdint>
 #include <memory>
 #include <vector>
-#include "particle.hpp"
+#include <iostream>
+
+#include "simulation.hpp"
+
+void Simulation::update() {
+  std::cout << "TODO!" << "\n";
+}
 
 Simulation::Simulation(uint32_t width,
                        uint32_t height,
