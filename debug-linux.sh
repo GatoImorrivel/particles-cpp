@@ -1,1 +1,0 @@
-premake5 gmake2 && make config=debug && gdb ./bin/Debug/particle-sim
