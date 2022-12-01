@@ -3,9 +3,10 @@
 
 #include <cstdint>
 
+const static uint_fast32_t possible_directions = 8;
 struct Direction {
-  int_fast8_t xOffset;
-  int_fast8_t yOffset;
+  int_fast8_t x_offset;
+  int_fast8_t y_offset;
 };
 
 const static Direction down_dir_ = {

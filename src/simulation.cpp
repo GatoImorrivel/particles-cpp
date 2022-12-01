@@ -8,7 +8,24 @@
 #include "simulation.hpp"
 
 void Simulation::update() {
-  std::cout << "TODO!" << "\n";
+  for (int y_pos = this->height; y_pos --> 0;) {
+    for (int x_pos = 0; x_pos <++ this->width;) {
+      uint_fast32_t new_idx = this->computeNewPosition(x_pos, y_pos);
+      this->swapParticle(new_idx, this->indexOf(x_pos, y_pos));
+    }
+  }
+}
+
+uint_fast32_t Simulation::computeNewPosition(int x_pos, int y_pos) const {
+  auto particle = this->particles[this->indexOf(x_pos, y_pos)];
+  
+  for (const auto& dir : particle.move_rules) {
+    if (this->isPositionValid(x_pos + dir.x_offset, y_pos + dir.y_offset)) {
+      auto other_particle = this->particles[this->indexOf(x_pos + dir.x_offset, y_pos + dir.y_offset)];
+
+
+    }
+  }
 }
 
 Simulation::Simulation(uint32_t width,
@@ -17,7 +34,7 @@ Simulation::Simulation(uint32_t width,
     : width(width / particle_dimensions),
       height(height / particle_dimensions),
       particles((width / particle_dimensions) * (height / particle_dimensions),
-                std::make_shared<Particle>(particle_empty_)) {
+                particle_empty_) {
   sf::Texture texture;
   if (!texture.create(this->width, this->height)) {
     throw "FAILED TO CREATE TEXTURE";
@@ -42,12 +59,13 @@ inline size_t Simulation::indexOf(const size_t x_pos, const size_t y_pos) const 
 
 void Simulation::swapParticle(const size_t p1idx, const size_t p2idx) {
 
+
   this->writeToTextureData(p1idx);
   this->writeToTextureData(p2idx);
 }
 
 void Simulation::writeToTextureData(const size_t pidx) {
-  auto color = this->particles[pidx]->color;
+  auto color = this->particles[pidx].color;
 
   this->texture_data[pidx * 4] = color.r;
   this->texture_data[pidx * 4 + 1] = color.g;
@@ -57,4 +75,8 @@ void Simulation::writeToTextureData(const size_t pidx) {
 
 sf::Sprite Simulation::getSprite() const {
   return this->render_sprite;
+}
+
+inline bool Simulation::isPositionValid(int x_pos, int y_pos) const {
+  return x_pos >= 0 && x_pos < this->width && y_pos >= 0 && y_pos < this->height;
 }
